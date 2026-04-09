@@ -1,55 +1,192 @@
 <!DOCTYPE html>
+
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>Compte à rebours LAURA COUPLE</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background: #111;
-            color: #fff;
-            padding-top: 100px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LAURA COUPLE 💖</title>
 
-        #countdown {
-            font-size: 50px;
-            margin-top: 20px;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        h1 {
-            font-size: 40px;
-        }
-    </style>
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(-45deg, #ff4b2b, #ff416c, #6a11cb, #2575fc);
+    background-size: 400% 400%;
+    animation: bg 10s ease infinite;
+    color: white;
+    overflow: hidden;
+}
+
+@keyframes bg {
+    0% {background-position:0% 50%;}
+    50% {background-position:100% 50%;}
+    100% {background-position:0% 50%;}
+}
+
+.container {
+    text-align: center;
+    z-index: 2;
+}
+
+h1 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    animation: fadeIn 2s ease;
+}
+
+.countdown {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.box {
+    background: rgba(255,255,255,0.1);
+    backdrop-filter: blur(10px);
+    padding: 15px;
+    border-radius: 15px;
+    min-width: 80px;
+    transition: 0.3s;
+}
+
+.box:hover {
+    transform: scale(1.1);
+}
+
+.num {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.label {
+    font-size: 0.8rem;
+}
+
+button {
+    margin-top: 25px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background: white;
+    color: black;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+/* COEURS */
+.heart {
+    position: absolute;
+    bottom: -10px;
+    font-size: 20px;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(-110vh);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from {opacity:0; transform: translateY(20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    h1 { font-size: 1.5rem; }
+    .num { font-size: 1.5rem; }
+}
+</style>
+
 </head>
+
 <body>
 
-    <h1>Compte à rebours LAURA COUPLE</h1>
-    <div id="countdown"></div>
+<div class="container">
+    <h1>💖 LAURA COUPLE 💖</h1>
 
-    <script>
-        // Date cible (modifie ici)
-        const targetDate = new Date("2026-04-18 23:59:59").getTime();
+```
+<div class="countdown">
+    <div class="box"><div id="d" class="num">0</div><div class="label">Jours</div></div>
+    <div class="box"><div id="h" class="num">0</div><div class="label">Heures</div></div>
+    <div class="box"><div id="m" class="num">0</div><div class="label">Minutes</div></div>
+    <div class="box"><div id="s" class="num">0</div><div class="label">Secondes</div></div>
+</div>
 
-        const countdown = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+<button onclick="share()">📤 Partager</button>
+```
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+</div>
 
-            document.getElementById("countdown").innerHTML =
-                days + "j " + hours + "h "
-                + minutes + "m " + seconds + "s ";
+<!-- MUSIQUE -->
 
-            if (distance < 0) {
-                clearInterval(countdown);
-                document.getElementById("countdown").innerHTML = "Temps écoulé !";
-            }
-        }, 1000);
-    </script>
+<audio autoplay loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// DATE CIBLE
+const target = new Date("2026-04-18 23:59:59").getTime();
+
+// COMPTE À REBOURS
+setInterval(() => {
+    const now = new Date().getTime();
+    const diff = target - now;
+
+    if (diff < 0) {
+        document.querySelector(".countdown").innerHTML = "💥 Temps écoulé !";
+        return;
+    }
+
+    d.innerText = Math.floor(diff / (1000*60*60*24));
+    h.innerText = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    m.innerText = Math.floor((diff%(1000*60*60))/(1000*60));
+    s.innerText = Math.floor((diff%(1000*60))/1000);
+}, 1000);
+
+// COEURS ANIMÉS
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random()*100 + "vw";
+    heart.style.animationDuration = (3 + Math.random()*5) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 8000);
+}
+setInterval(createHeart, 300);
+
+// PARTAGE
+function share() {
+    if (navigator.share) {
+        navigator.share({
+            title: "LAURA COUPLE 💖",
+            text: "Regarde ce compte à rebours ❤️",
+            url: window.location.href
+        });
+    } else {
+        alert("Copie ce lien : " + window.location.href);
+    }
+}
+</script>
 
 </body>
 </html>
